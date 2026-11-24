@@ -47,17 +47,3 @@
       // These scopes allow patient launch and read-only Patient and
       // Observation access.
       scope:
-        "launch/patient openid fhirUser patient/Patient.read patient/Observation.read",
-
-      // Must be this app's index.html. fhir-client turns the relative URL
-      // into the full GitHub Pages URL before sending it.
-      redirectUri: "index.html",
-
-      iss: sandboxIss
-    }).catch(function (error) {
-      document.querySelector("h1").textContent =
-        "Could not start sign-in";
-
-      document.getElementById("error").textContent =
-        error.message || String(error);
-    });
