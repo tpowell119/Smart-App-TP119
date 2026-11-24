@@ -9,15 +9,20 @@
 <body>
   <main>
     <h1>Starting patient sign-in…</h1>
-    <p>You are leaving this page for the SMART sandbox. Sign in there as the patient, then the sandbox sends you back here.</p>
+    <p>
+      You are leaving this page for the SMART sandbox. Sign in there as the
+      patient, then the sandbox sends you back here.
+    </p>
     <p id="error"></p>
   </main>
+
   <script>
     // Patient standalone against the SMART Health IT R4 sandbox.
     // The sandbox reads the "/sim/..." segment and shows a patient login
     // because the launch type is patient-standalone (the 3 below).
     // A different iss on the query string wins, so the SMART Launcher can
     // still start this same page.
+
     var launchOptions = [
       3, "", "", "AUTO",
       0, 0, 0,
@@ -25,25 +30,34 @@
       0, 1, ""
     ];
 
-    var sandboxIss = "https://launch.smarthealthit.org/v/r4/sim/"
-      + btoa(JSON.stringify(launchOptions)).replace(/=+$/g, "").replace(/\+/g, "-").replace(/\//g, "_")
-      + "/fhir";
+    var sandboxIss =
+      "https://launch.smarthealthit.org/v/r4/sim/" +
+      btoa(JSON.stringify(launchOptions))
+        .replace(/=+$/g, "")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_") +
+      "/fhir";
 
     // authorize() redirects the browser. Code after it does not run
     // unless the sandbox cannot be reached.
     FHIR.oauth2.authorize({
       // Public client. The sandbox does not require a registered secret.
       clientId: "my_web_app",
-      // These scopes allow patient launch and read-only Patient and Observation access.
-      scope: "launch/patient openid fhirUser patient/Patient.read patient/Observation.read",
+
+      // These scopes allow patient launch and read-only Patient and
+      // Observation access.
+      scope:
+        "launch/patient openid fhirUser patient/Patient.read patient/Observation.read",
+
       // Must be this app's index.html. fhir-client turns the relative URL
       // into the full GitHub Pages URL before sending it.
       redirectUri: "index.html",
+
       iss: sandboxIss
     }).catch(function (error) {
-      document.querySelector("h1").textContent = "Could not start sign-in";
-      document.getElementById("error").textContent = error.message || String(error);
+      document.querySelector("h1").textContent =
+        "Could not start sign-in";
+
+      document.getElementById("error").textContent =
+        error.message || String(error);
     });
-  </script>
-</body>
-</html>
